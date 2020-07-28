@@ -4,7 +4,9 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/longjoy/micro-go-course/section08/user/config"
 	"github.com/longjoy/micro-go-course/section08/user/dao"
+	"github.com/longjoy/micro-go-course/section08/user/dao/gorm_conn"
 	"github.com/longjoy/micro-go-course/section08/user/endpoint"
 	"github.com/longjoy/micro-go-course/section08/user/redis"
 	"github.com/longjoy/micro-go-course/section08/user/service"
@@ -17,13 +19,11 @@ import (
 	"syscall"
 )
 
-func main()  {
-
+func main() {
 
 	var (
 		// 服务地址和服务名
 		servicePort = flag.Int("service.port", 10086, "service port")
-
 	)
 
 	flag.Parse()
@@ -31,13 +31,14 @@ func main()  {
 	ctx := context.Background()
 	errChan := make(chan error)
 
-	err := dao.InitMysql("127.0.0.1", "3306", "root", "xuan", "user")
-	if err != nil{
+	_, err := gorm_conn.Init()
+	//err := dao.InitMysql("127.0.0.1", "3306", "root", "123456", "user")
+	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = redis.InitRedis("127.0.0.1","6379", "" )
-	if err != nil{
+	err = redis.InitRedis(config.RedisHost, config.RedisPort, config.RedisPass)
+	if err != nil {
 		log.Fatal(err)
 	}
 
@@ -50,10 +51,8 @@ func main()  {
 
 	r := transport.MakeHttpHandler(ctx, userEndpoints)
 
-
-
 	go func() {
-		errChan <- http.ListenAndServe(":"  + strconv.Itoa(*servicePort), r)
+		errChan <- http.ListenAndServe(":"+strconv.Itoa(*servicePort), r)
 	}()
 
 	go func() {

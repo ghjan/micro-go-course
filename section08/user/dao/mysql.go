@@ -7,17 +7,14 @@ import (
 	"log"
 )
 
-
 var db *gorm.DB
 
 func InitMysql(host, port, user, password, dbName string) (err error) {
 	db, err = gorm.Open("mysql", fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", user, password, host, port, dbName))
-	if err != nil{
+	if err != nil {
 		log.Println(err)
 		return
 	}
 	db.SingularTable(true)
 	return
 }
-
-
