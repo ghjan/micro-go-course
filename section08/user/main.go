@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/longjoy/micro-go-course/section08/user/config"
 	"github.com/longjoy/micro-go-course/section08/user/dao"
-	"github.com/longjoy/micro-go-course/section08/user/dao/gorm_conn"
 	"github.com/longjoy/micro-go-course/section08/user/endpoint"
 	"github.com/longjoy/micro-go-course/section08/user/redis"
 	"github.com/longjoy/micro-go-course/section08/user/service"
@@ -31,13 +30,7 @@ func main() {
 	ctx := context.Background()
 	errChan := make(chan error)
 
-	_, err := gorm_conn.Init()
-	//err := dao.InitMysql("127.0.0.1", "3306", "root", "123456", "user")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = redis.InitRedis(config.RedisHost, config.RedisPort, config.RedisPass)
+	err := redis.InitRedis(config.RedisHost, config.RedisPort, config.RedisPass)
 	if err != nil {
 		log.Fatal(err)
 	}

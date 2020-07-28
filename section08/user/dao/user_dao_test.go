@@ -7,19 +7,19 @@ import (
 func TestUserDAOImpl_Save(t *testing.T) {
 	userDAO := &UserDAOImpl{}
 
-	err := InitMysql("127.0.0.1", "3306", "root", "xuan", "user")
-	if err != nil{
+	_, err := InitDB()
+	if err != nil {
 		t.Error(err)
 		t.FailNow()
 	}
 	user := &UserEntity{
-		Username:"aoho",
-		Password:"aoho",
-		Email:"aoho@mail.com",
+		Username: "david",
+		Password: "123456",
+		Email:    "cajan2@163.com",
 	}
 
 	err = userDAO.Save(user)
-	if err != nil{
+	if err != nil {
 		t.Error(err)
 		t.FailNow()
 	}
@@ -31,14 +31,14 @@ func TestUserDAOImpl_SelectByEmail(t *testing.T) {
 
 	userDAO := &UserDAOImpl{}
 
-	err := InitMysql("127.0.0.1", "3306", "root", "xuan", "user")
-	if err != nil{
+	_, err := InitDB()
+	if err != nil {
 		t.Error(err)
 		t.FailNow()
 	}
 
-	user, err := userDAO.SelectByEmail("aoho@mail.com")
-	if err != nil{
+	user, err := userDAO.SelectByEmail("cajan2@163.com")
+	if err != nil {
 		t.Error(err)
 		t.FailNow()
 	}
