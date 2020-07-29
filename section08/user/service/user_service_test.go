@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"github.com/longjoy/micro-go-course/section08/user/config"
 	"github.com/longjoy/micro-go-course/section08/user/dao"
 	"github.com/longjoy/micro-go-course/section08/user/redis"
 	"testing"
@@ -10,13 +11,12 @@ import (
 func TestUserServiceImpl_Login(t *testing.T) {
 
 
-	err := dao.InitMysql("127.0.0.1", "3306", "root", "xuan", "user")
-	if err != nil{
-		t.Error(err)
-		t.FailNow()
-	}
-
-	err = redis.InitRedis("127.0.0.1","6379", "" )
+	//err := dao.InitMysql("127.0.0.1", "3306", "root", "xuan", "user")
+	//if err != nil{
+	//	t.Error(err)
+	//	t.FailNow()
+	//}
+	err := redis.InitRedis(config.RedisHost, config.RedisPort, config.RedisPass)
 	if err != nil{
 		t.Error(err)
 		t.FailNow()
@@ -41,13 +41,13 @@ func TestUserServiceImpl_Login(t *testing.T) {
 func TestUserServiceImpl_Register(t *testing.T) {
 
 
-	err := dao.InitMysql("127.0.0.1", "3306", "root", "xuan", "user")
-	if err != nil{
-		t.Error(err)
-		t.FailNow()
-	}
+	//err := dao.InitMysql("127.0.0.1", "3306", "root", "xuan", "user")
+	//if err != nil{
+	//	t.Error(err)
+	//	t.FailNow()
+	//}
 
-	err = redis.InitRedis("127.0.0.1","6379", "" )
+	err := redis.InitRedis(config.RedisHost, config.RedisPort, config.RedisPass)
 	if err != nil{
 		t.Error(err)
 		t.FailNow()

@@ -38,15 +38,12 @@ func MakeHttpHandler(ctx context.Context, endpoints *endpoint.UserEndpoints) htt
 		options...,
 	))
 
-
 	r.Methods("POST").Path("/login").Handler(kithttp.NewServer(
 		endpoints.LoginEndpoint,
 		decodeLoginRequest,
 		encodeJSONResponse,
 		options...,
 	))
-
-
 
 	return r
 }
@@ -55,16 +52,15 @@ func decodeRegisterRequest(_ context.Context, r *http.Request) (interface{}, err
 	password := r.FormValue("password")
 	email := r.FormValue("email")
 
-	if username == "" || password == "" || email == ""{
+	if username == "" || password == "" || email == "" {
 		return nil, ErrorBadRequest
 	}
 	return &endpoint.RegisterRequest{
-		Username:username,
-		Password:password,
-		Email:email,
-	},nil
+		Username: username,
+		Password: password,
+		Email:    email,
+	}, nil
 }
-
 
 func decodeLoginRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	email := r.FormValue("email")
@@ -74,17 +70,15 @@ func decodeLoginRequest(_ context.Context, r *http.Request) (interface{}, error)
 		return nil, ErrorBadRequest
 	}
 	return &endpoint.LoginRequest{
-		Email:email,
-		Password:password,
-	},nil
+		Email:    email,
+		Password: password,
+	}, nil
 }
 
 func encodeJSONResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
 	w.Header().Set("Content-Type", "application/json;charset=utf-8")
 	return json.NewEncoder(w).Encode(response)
 }
-
-
 
 func encodeError(_ context.Context, err error, w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -96,4 +90,3 @@ func encodeError(_ context.Context, err error, w http.ResponseWriter) {
 		"error": err.Error(),
 	})
 }
-
